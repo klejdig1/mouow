@@ -1,0 +1,10 @@
+{
+  "name": "mystery-box-game",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "start \"\" \"http://localhost:8080/mystery_box_game.html\" && npx http-server ./ -c-1 -p 8080",
+    "start": "npm run dev"
+  }
+}
+

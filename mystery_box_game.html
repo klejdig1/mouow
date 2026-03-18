@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mystery Box</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="mystery_box_game.css" />
+  </head>
+  <body>
+    <div id="game">
+      <div id="play-screen">
+        <div class="game-header">
+          <div class="game-title">Mystery Box</div>
+          <div class="game-subtitle">Pick your fate</div>
+        </div>
+
+        <div class="topbar">
+          <div class="pill">
+            <span>Round</span><b id="rnum">1</b><span>/ 3</span>
+          </div>
+          <div>
+            <div class="score-display" id="score-disp">0</div>
+            <div class="score-label">points</div>
+          </div>
+          <div class="pill" style="flex-direction: row-reverse">
+            <span>Boxes</span><b>4</b>
+          </div>
+        </div>
+
+        <div class="round-track">
+          <div class="round-seg active" id="seg0"></div>
+          <div class="round-seg" id="seg1"></div>
+          <div class="round-seg" id="seg2"></div>
+        </div>
+
+        <p class="instruction">One box hides a loss — choose wisely</p>
+        <div class="boxes" id="boxes"></div>
+        <div class="feedback" id="feedback"></div>
+        <button class="next-btn" id="next-btn" onclick="nextRound()">
+          Next Round →
+        </button>
+      </div>
+
+      <div id="end-screen">
+        <div class="end-wrap">
+          <span class="end-icon" id="end-icon"></span>
+          <div class="end-title" id="end-title"></div>
+          <div class="end-sub" id="end-sub"></div>
+          <div class="round-recap" id="round-recap"></div>
+          <div class="total-bar">
+            <div class="tb-label">Total Score</div>
+            <div class="tb-val" id="total-val">0</div>
+          </div>
+          <button class="play-again" onclick="startGame()">Try Again</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="mystery_box_game.js"></script>
+  </body>
+</html>
