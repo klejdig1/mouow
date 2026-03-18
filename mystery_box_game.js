@@ -22,6 +22,37 @@ let roundScores = [];
 let prizes = [];
 let locked = false;
 
+// Persistent progression (per-browser).
+const LS_BEST_SCORE_KEY = "mysteryBox_bestScore";
+const LS_STREAK_KEY = "mysteryBox_streakRuns";
+
+let bestScore = 0;
+let streakRuns = 0;
+
+function loadProgress() {
+  try {
+    const bs = Number(localStorage.getItem(LS_BEST_SCORE_KEY));
+    const st = Number(localStorage.getItem(LS_STREAK_KEY));
+    bestScore = Number.isFinite(bs) ? bs : 0;
+    streakRuns = Number.isFinite(st) ? st : 0;
+  } catch {
+    // localStorage can fail in some privacy modes; game should still work.
+    bestScore = 0;
+    streakRuns = 0;
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(LS_BEST_SCORE_KEY, String(bestScore));
+    localStorage.setItem(LS_STREAK_KEY, String(streakRuns));
+  } catch {
+    // Ignore persistence errors.
+  }
+}
+
+loadProgress();
+
 function shuffle(a) {
   return [...a].sort(() => Math.random() - 0.5);
 }
@@ -113,6 +144,11 @@ function pick(idx, clickedBox) {
       500
     );
     spawnParticles(cx, cy, COLOR_HEX.red);
+
+    // Losing breaks the run-streak.
+    streakRuns = 0;
+    saveProgress();
+
     // Restart the whole game after showing the loss feedback.
     setTimeout(() => startGame(), 900);
     return;
@@ -163,7 +199,16 @@ function showEnd() {
           : "Wiped Out";
   document.getElementById("end-icon").textContent = icon;
   document.getElementById("end-title").textContent = title;
-  document.getElementById("end-sub").textContent = `${won} of 3 rounds won`;
+  // Winning a full 3/3 run increments streak and updates best score.
+  if (won === 3) {
+    streakRuns += 1;
+    if (score > bestScore) bestScore = score;
+    saveProgress();
+  }
+
+  document.getElementById(
+    "end-sub"
+  ).textContent = `${won} of 3 rounds won | Best: ${bestScore} | Streak: ${streakRuns}`;
 
   const colorMap = { 50: "green", 100: "blue", 200: "purple", 0: "red" };
   const labelMap = { 50: "+50", 100: "+100", 200: "+200", 0: "LOSE" };
