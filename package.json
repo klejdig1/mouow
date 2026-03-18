@@ -3,7 +3,7 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "dev": "start \"\" \"http://localhost:8080/mystery_box_game.html\" && npx http-server ./ -c-1 -p 8080",
+    "dev": "npx http-server ./ -c-1 -p 8080 --silent & powershell -NoProfile -Command \"Start-Sleep -Seconds 2; Start-Process 'http://localhost:8080/mystery_box_game.html'\"",
     "start": "npm run dev"
   }
 }
